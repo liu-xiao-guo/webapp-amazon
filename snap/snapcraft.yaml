@@ -1,0 +1,39 @@
+name: amazon-webapp
+version: '1.0'
+summary: Amazon webapp
+description: |
+  Webapp version of the Amazon web application.
+
+grade: stable
+confinement: strict
+
+apps:
+  amazon-webapp:
+    command: webapp-launcher --enable-back-forward --webappUrlPatterns=https?://www.amazon.com/*,https?://s.amazon-adsystem.com/* http://www.amazon.com/gp/aw
+    plugs:
+      - browser-sandbox
+      - camera
+      - network
+      - network-bind
+      - opengl
+      - pulseaudio
+      - screen-inhibit-control
+      - unity7
+      - network-control
+      - mount-observe
+
+plugs:
+  browser-sandbox:
+    interface: browser-support
+    allow-sandbox: false
+  platform:
+    interface: content
+    content: ubuntu-app-platform1
+    target: ubuntu-app-platform
+    default-provider: ubuntu-app-platform
+
+parts:
+  webapp-container:
+    after: [desktop-ubuntu-app-platform,webapp-helper]
+    plugin: nil
+
